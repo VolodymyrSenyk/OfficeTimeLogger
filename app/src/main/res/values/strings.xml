@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">OfficeTimeLogger</string>
+
+    <string name="action_show_statistics">Статистика</string>
+    <string name="action_filter_list">Задать границы</string>
+
+    <string name="total_time_format">%1$d ч. %2$d мин.</string>
+
+</resources>
