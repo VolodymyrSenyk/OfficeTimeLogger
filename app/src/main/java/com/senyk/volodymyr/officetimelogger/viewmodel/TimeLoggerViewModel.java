@@ -1,26 +1,23 @@
 package com.senyk.volodymyr.officetimelogger.viewmodel;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
+import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
 import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
 import com.senyk.volodymyr.officetimelogger.repository.TimeLoggerRepository;
-import com.senyk.volodymyr.officetimelogger.helpers.SingleEventLiveData;
 
-public class TimeLoggerViewModel extends ViewModel {
+public class TimeLoggerViewModel extends BaseViewModel {
     private final TimeLoggerRepository repository;
+    private final ResourcesProvider resourcesProvider;
 
-    private MutableLiveData<String> message = new SingleEventLiveData<>();
-
-    public TimeLoggerViewModel(TimeLoggerRepository repository) {
+    public TimeLoggerViewModel(TimeLoggerRepository repository, ResourcesProvider resourcesProvider) {
         this.repository = repository;
+        this.resourcesProvider = resourcesProvider;
     }
 
     public void addTimeLog(TimeLogDto log) {
         if (this.repository.logTime(log)) {
-            this.message.setValue("Time successfully logged");
+            this.message.setValue(resourcesProvider.getSuccessfullyLoggedMessage());
         } else {
-            this.message.setValue("An error occurred");
+            this.message.setValue("An error occurred. You made mistake!");
         }
     }
 }

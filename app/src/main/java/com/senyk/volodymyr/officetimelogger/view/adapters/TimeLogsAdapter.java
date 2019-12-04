@@ -1,8 +1,10 @@
 package com.senyk.volodymyr.officetimelogger.view.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +17,6 @@ import java.util.List;
 
 public class TimeLogsAdapter extends RecyclerView.Adapter {
     private final LayoutInflater inflater;
-
     private List<TimeLogUi> items = new ArrayList<>();
 
     public TimeLogsAdapter(LayoutInflater inflater) {
@@ -36,17 +37,34 @@ public class TimeLogsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        TimeLogViewHolder viewHolder = (TimeLogViewHolder) holder;
+        TimeLogUi item = this.items.get(position);
 
+        Context context = viewHolder.itemView.getContext();
+
+        viewHolder.dayOutput.setText(item.getDay());
+        viewHolder.totalTimeOutput.setText(context.getString(R.string.total_time_output, item.getTotalTime()));
+        viewHolder.arrivalTimeOutput.setText(context.getString(R.string.arrival_time_output, item.getArrivalTime()));
+        viewHolder.leavingTimeOutput.setText(context.getString(R.string.leaving_time_output, item.getLeavingTime()));
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return this.items.size();
     }
 
-    static class TimeLogViewHolder extends RecyclerView.ViewHolder {
+    private static class TimeLogViewHolder extends RecyclerView.ViewHolder {
+        private TextView dayOutput;
+        private TextView totalTimeOutput;
+        private TextView arrivalTimeOutput;
+        private TextView leavingTimeOutput;
+
         TimeLogViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.dayOutput = itemView.findViewById(R.id.day_output);
+            this.totalTimeOutput = itemView.findViewById(R.id.total_time_output);
+            this.arrivalTimeOutput = itemView.findViewById(R.id.arrival_time_output);
+            this.leavingTimeOutput = itemView.findViewById(R.id.leaving_time_output);
         }
     }
 }

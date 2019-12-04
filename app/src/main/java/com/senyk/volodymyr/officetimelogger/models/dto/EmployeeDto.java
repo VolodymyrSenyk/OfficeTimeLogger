@@ -6,6 +6,17 @@ public class EmployeeDto {
     private final String lastName;
     private final String middleName;
 
+    public EmployeeDto(String firstName, String lastName, String middleName) {
+        this(0, firstName, lastName, middleName);
+    }
+
+    public EmployeeDto(int id, String firstName, String lastName, String middleName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -20,16 +31,5 @@ public class EmployeeDto {
 
     public String getMiddleName() {
         return this.middleName;
-    }
-
-    public EmployeeDto(String firstName, String lastName, String middleName) {
-        this(0, firstName, lastName, middleName);
-    }
-
-    public EmployeeDto(int id, String firstName, String lastName, String middleName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
     }
 }

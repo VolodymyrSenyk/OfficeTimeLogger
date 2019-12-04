@@ -20,7 +20,7 @@ public class ResourcesProvider {
         return DateUtils.formatDateTime(
                 this.context,
                 dateAndTime.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
         );
     }
 
@@ -35,9 +35,13 @@ public class ResourcesProvider {
     }
 
     public String getTotalTime(double time) {
-        return context.getString(
+        return this.context.getString(
                 R.string.total_time_format,
                 (int) time,
-                time % 1);
+                (int) time * 100);
+    }
+
+    public String getSuccessfullyLoggedMessage() {
+        return this.context.getString(R.string.time_successfully_logged);
     }
 }
