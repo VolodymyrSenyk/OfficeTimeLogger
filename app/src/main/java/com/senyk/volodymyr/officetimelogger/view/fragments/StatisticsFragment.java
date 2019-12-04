@@ -1,6 +1,7 @@
 package com.senyk.volodymyr.officetimelogger.view.fragments;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,9 +26,11 @@ import com.senyk.volodymyr.officetimelogger.mappers.dtoui.TimeLogsMapper;
 import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
 import com.senyk.volodymyr.officetimelogger.view.adapters.TimeLogsAdapter;
 import com.senyk.volodymyr.officetimelogger.view.adapters.TimeLogsEmptyStateAdapter;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.DialogPositiveButtonClickListener;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.SetDateFilterDialogFragment;
 import com.senyk.volodymyr.officetimelogger.viewmodel.StatisticsViewModel;
 
-public class StatisticsFragment extends Fragment {
+public class StatisticsFragment extends Fragment implements DialogPositiveButtonClickListener {
     private StatisticsViewModel viewModel;
 
     @Nullable
@@ -100,8 +103,19 @@ public class StatisticsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_set_filter) {
-            this.viewModel.loadTimeLogs(0L, 1000L);
+            showSetFiltersDialog();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPositiveButtonClick(Pair<Long, Long> dialogData) {
+        this.viewModel.loadTimeLogs(dialogData.first, dialogData.second);
+    }
+
+    private void showSetFiltersDialog() {
+        SetDateFilterDialogFragment dialog = new SetDateFilterDialogFragment();
+        dialog.setTargetFragment(this, 1);
+        dialog.show(requireFragmentManager(), "TAG");
     }
 }
