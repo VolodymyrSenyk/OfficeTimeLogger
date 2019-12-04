@@ -13,11 +13,9 @@
     <string name="leaving_time_output">Время ухода: %1$s</string>
     <string name="time_logs_empty_state">Записи не найдены</string>
 
-    <string name="user_last_name_input_hint">Фамилия</string>
-    <string name="user_first_name_input_hint">Имя</string>
-    <string name="user_middle_name_input_hint">Отчество</string>
+    <string name="user_number_input_hint">Табельный номер</string>
     <string name="password_input_hint">Пароль</string>
-    <string name="log_in_button">Авторизоваться</string>
+    <string name="log_in_button">Войти</string>
     <string name="empty_fields_error">Все поля должны быть заполнены</string>
 
     <string name="day_input_hint">День</string>

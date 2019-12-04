@@ -56,8 +56,8 @@ public class TimeLoggerFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(this::onOptionsItemSelected);
 
         daySetter = new DateSetter(view.findViewById(R.id.day_input_view));
-        arrivalTimeSetter = new TimeSetter(view.findViewById(R.id.arrival_time_input_view));
-        leavingTimeSetter = new TimeSetter(view.findViewById(R.id.leaving_time_input_view));
+        arrivalTimeSetter = new TimeSetter(view.findViewById(R.id.arrival_time_input_view), TimeSetter.Defaults.ARRIVAL_TIME);
+        leavingTimeSetter = new TimeSetter(view.findViewById(R.id.leaving_time_input_view), TimeSetter.Defaults.LEAVING_TIME);
 
         view.findViewById(R.id.day_input_view).setOnClickListener(view12 -> daySetter.setDialog());
         view.findViewById(R.id.arrival_time_input_view).setOnClickListener(view12 -> arrivalTimeSetter.setDialog());
@@ -71,10 +71,14 @@ public class TimeLoggerFragment extends Fragment {
             if (arrivalTime.getTimeInMillis() > leavingTime.getTimeInMillis()) {
                 Toast.makeText(requireContext(), getString(R.string.time_mismatch_error), Toast.LENGTH_LONG).show();
             } else {
-                Calendar arrival = day;
+                Calendar arrival = Calendar.getInstance();
+                arrival.setTimeInMillis(day.getTimeInMillis());
                 arrival.set(Calendar.HOUR_OF_DAY, arrivalTime.get(Calendar.HOUR_OF_DAY));
-                Calendar leaving = day;
+                arrival.set(Calendar.MINUTE, arrivalTime.get(Calendar.MINUTE));
+                Calendar leaving = Calendar.getInstance();
+                leaving.setTimeInMillis(day.getTimeInMillis());
                 leaving.set(Calendar.HOUR_OF_DAY, leavingTime.get(Calendar.HOUR_OF_DAY));
+                leaving.set(Calendar.MINUTE, arrivalTime.get(Calendar.MINUTE));
                 viewModel.addTimeLog(
                         new TimeLogDto(
                                 arrival.getTimeInMillis(),

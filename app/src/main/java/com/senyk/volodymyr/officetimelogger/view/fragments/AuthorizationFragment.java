@@ -14,7 +14,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.models.dto.CredentialsDto;
-import com.senyk.volodymyr.officetimelogger.models.dto.EmployeeDto;
 import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
 import com.senyk.volodymyr.officetimelogger.viewmodel.AuthorizationViewModel;
 
@@ -33,14 +32,12 @@ public class AuthorizationFragment extends Fragment {
         this.viewModel = new AuthorizationViewModel(FakeRepository.getFakeRepository());
 
         view.findViewById(R.id.log_in_button).setOnClickListener(view1 -> {
-            String firstName = ((TextView) view.findViewById(R.id.first_name_input_view)).getText().toString();
-            String lastName = ((TextView) view.findViewById(R.id.last_name_input_view)).getText().toString();
-            String middleName = ((TextView) view.findViewById(R.id.middle_name_input_view)).getText().toString();
+            String userNumber = ((TextView) view.findViewById(R.id.user_number_input_view)).getText().toString();
             String password = ((TextView) view.findViewById(R.id.password_input_view)).getText().toString();
-            if (firstName.equals("") || lastName.equals("") || middleName.equals("") || password.equals("")) {
+            if (userNumber.equals("") || password.equals("")) {
                 Toast.makeText(requireContext(), getString(R.string.empty_fields_error), Toast.LENGTH_LONG).show();
             } else {
-                viewModel.logIn(new CredentialsDto(new EmployeeDto(firstName, lastName, middleName), password));
+                viewModel.logIn(new CredentialsDto(userNumber, password));
             }
         });
 

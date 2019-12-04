@@ -9,8 +9,16 @@ import com.senyk.volodymyr.officetimelogger.R;
 import java.util.Calendar;
 
 public class TimeSetter extends DateTimeSetter {
-    public TimeSetter(TextInputEditText view) {
+    public TimeSetter(TextInputEditText view, Defaults defaultTimeType) {
         super(view);
+        if (defaultTimeType == Defaults.ARRIVAL_TIME) {
+            dateAndTime.set(Calendar.HOUR_OF_DAY, 9);
+            dateAndTime.set(Calendar.MINUTE, 0);
+        } else if (defaultTimeType == Defaults.LEAVING_TIME) {
+            dateAndTime.set(Calendar.HOUR_OF_DAY, 18);
+            dateAndTime.set(Calendar.MINUTE, 0);
+        }
+
         textView.setText(
                 DateUtils.formatDateTime(
                         textView.getContext(),
@@ -39,5 +47,11 @@ public class TimeSetter extends DateTimeSetter {
                 dateAndTime.get(Calendar.MINUTE), true
         );
         dialog.show();
+    }
+
+    public enum Defaults {
+        NONE,
+        ARRIVAL_TIME,
+        LEAVING_TIME,
     }
 }

@@ -51,8 +51,8 @@ public class SetDateFilterDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         if (getDialog() != null) {
-            startTimeSetter = new TimeSetter(getDialog().findViewById(R.id.start_time_input_view));
-            endTimeSetter = new TimeSetter(getDialog().findViewById(R.id.end_time_input_view));
+            startTimeSetter = new TimeSetter(getDialog().findViewById(R.id.start_time_input_view), TimeSetter.Defaults.ARRIVAL_TIME);
+            endTimeSetter = new TimeSetter(getDialog().findViewById(R.id.end_time_input_view), TimeSetter.Defaults.LEAVING_TIME);
             getDialog().findViewById(R.id.start_time_input_view).setOnClickListener(view12 -> startTimeSetter.setDialog());
             getDialog().findViewById(R.id.end_time_input_view).setOnClickListener(view12 -> endTimeSetter.setDialog());
         }
