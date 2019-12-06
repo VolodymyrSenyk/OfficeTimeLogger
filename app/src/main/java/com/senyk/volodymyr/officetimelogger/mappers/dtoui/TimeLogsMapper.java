@@ -18,6 +18,7 @@ public class TimeLogsMapper {
         List<TimeLogUi> uiList = new ArrayList<>(dtoList.size());
         for (TimeLogDto dto : dtoList) {
             uiList.add(new TimeLogUi(
+                    dto.getId(),
                     resourcesProvider.getDay(dto.getArrivalTime()),
                     resourcesProvider.getTime(dto.getArrivalTime()),
                     resourcesProvider.getTime(dto.getLeavingTime()),

@@ -44,4 +44,8 @@ public class ResourcesProvider {
     public String getSuccessfullyLoggedMessage() {
         return this.context.getString(R.string.time_successfully_logged);
     }
+
+    public String getPasswordSuccessfullyChangedMessage() {
+        return this.context.getString(R.string.password_successfully_changed);
+    }
 }

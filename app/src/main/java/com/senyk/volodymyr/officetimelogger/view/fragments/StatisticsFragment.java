@@ -24,13 +24,15 @@ import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
 import com.senyk.volodymyr.officetimelogger.mappers.dtoui.TimeLogsMapper;
 import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
+import com.senyk.volodymyr.officetimelogger.view.adapters.LogDeleteClickListener;
 import com.senyk.volodymyr.officetimelogger.view.adapters.TimeLogsAdapter;
 import com.senyk.volodymyr.officetimelogger.view.adapters.TimeLogsEmptyStateAdapter;
-import com.senyk.volodymyr.officetimelogger.view.dialogs.DialogPositiveButtonClickListener;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.FilterDialogPositiveButtonClickListener;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.SetDateFilterDialogFragment;
 import com.senyk.volodymyr.officetimelogger.viewmodel.StatisticsViewModel;
 
-public class StatisticsFragment extends Fragment implements DialogPositiveButtonClickListener {
+public class StatisticsFragment extends Fragment implements FilterDialogPositiveButtonClickListener,
+        LogDeleteClickListener {
     private StatisticsViewModel viewModel;
 
     @Nullable
@@ -76,7 +78,7 @@ public class StatisticsFragment extends Fragment implements DialogPositiveButton
         dataList.setNestedScrollingEnabled(false);
         dataList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        TimeLogsAdapter adapter = new TimeLogsAdapter(this.getLayoutInflater());
+        TimeLogsAdapter adapter = new TimeLogsAdapter(this);
         TimeLogsEmptyStateAdapter emptyAdapter = new TimeLogsEmptyStateAdapter(this.getLayoutInflater());
         dataList.setAdapter(emptyAdapter);
 
@@ -117,5 +119,10 @@ public class StatisticsFragment extends Fragment implements DialogPositiveButton
         SetDateFilterDialogFragment dialog = new SetDateFilterDialogFragment();
         dialog.setTargetFragment(this, 1);
         dialog.show(requireFragmentManager(), "TAG");
+    }
+
+    @Override
+    public void onDeleteButtonClickListener(int logId) {
+        this.viewModel.deleteLog(logId);
     }
 }

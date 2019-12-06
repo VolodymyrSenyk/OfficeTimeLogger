@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.models.ui.TimeLogUi;
 
@@ -17,10 +19,12 @@ import java.util.List;
 
 public class TimeLogsAdapter extends RecyclerView.Adapter {
     private final LayoutInflater inflater;
+    private final LogDeleteClickListener listener;
     private List<TimeLogUi> items = new ArrayList<>();
 
-    public TimeLogsAdapter(LayoutInflater inflater) {
-        this.inflater = inflater;
+    public TimeLogsAdapter(Fragment fragment) {
+        this.inflater = fragment.getLayoutInflater();
+        this.listener = (LogDeleteClickListener) fragment;
     }
 
     public void setItems(List<TimeLogUi> newList) {
@@ -46,6 +50,8 @@ public class TimeLogsAdapter extends RecyclerView.Adapter {
         viewHolder.totalTimeOutput.setText(context.getString(R.string.total_time_output, item.getTotalTime()));
         viewHolder.arrivalTimeOutput.setText(context.getString(R.string.arrival_time_output, item.getArrivalTime()));
         viewHolder.leavingTimeOutput.setText(context.getString(R.string.leaving_time_output, item.getLeavingTime()));
+
+        viewHolder.deleteButton.setOnClickListener(view -> listener.onDeleteButtonClickListener(item.getId()));
     }
 
     @Override
@@ -58,6 +64,7 @@ public class TimeLogsAdapter extends RecyclerView.Adapter {
         private TextView totalTimeOutput;
         private TextView arrivalTimeOutput;
         private TextView leavingTimeOutput;
+        private MaterialButton deleteButton;
 
         TimeLogViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +72,7 @@ public class TimeLogsAdapter extends RecyclerView.Adapter {
             this.totalTimeOutput = itemView.findViewById(R.id.total_time_output);
             this.arrivalTimeOutput = itemView.findViewById(R.id.arrival_time_output);
             this.leavingTimeOutput = itemView.findViewById(R.id.leaving_time_output);
+            this.deleteButton = itemView.findViewById(R.id.delete_log_button);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.senyk.volodymyr.officetimelogger.repository;
 
+import android.util.Pair;
+
 import com.senyk.volodymyr.officetimelogger.models.dto.CredentialsDto;
 import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
 
@@ -27,6 +29,13 @@ public class FakeRepository implements TimeLoggerRepository {
         return true;
     }
 
+    @Override
+    public List<TimeLogDto> deleteLog(int logId) {
+        if (!this.timeLogs.isEmpty())
+            this.timeLogs.remove(this.timeLogs.size() - 1);
+        return getTimeLogs();
+    }
+
     public List<TimeLogDto> getTimeLogs() {
         return timeLogs;
     }
@@ -39,5 +48,10 @@ public class FakeRepository implements TimeLoggerRepository {
             }
         }
         return filteredList;
+    }
+
+    @Override
+    public boolean changePassword(Pair<String, String> passwords) {
+        return true;
     }
 }

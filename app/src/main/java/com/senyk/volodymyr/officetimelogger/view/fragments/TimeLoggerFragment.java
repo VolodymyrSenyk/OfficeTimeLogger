@@ -1,6 +1,7 @@
 package com.senyk.volodymyr.officetimelogger.view.fragments;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,8 @@ import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
 import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
 import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.ChangePasswordDialogFragment;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.ChangePasswordDialogPositiveButtonClickListener;
 import com.senyk.volodymyr.officetimelogger.view.helpers.datetime.DateSetter;
 import com.senyk.volodymyr.officetimelogger.view.helpers.datetime.DateTimeSetter;
 import com.senyk.volodymyr.officetimelogger.view.helpers.datetime.TimeSetter;
@@ -27,7 +30,7 @@ import com.senyk.volodymyr.officetimelogger.viewmodel.TimeLoggerViewModel;
 
 import java.util.Calendar;
 
-public class TimeLoggerFragment extends Fragment {
+public class TimeLoggerFragment extends Fragment implements ChangePasswordDialogPositiveButtonClickListener {
     private TimeLoggerViewModel viewModel;
 
     private DateTimeSetter daySetter;
@@ -62,6 +65,8 @@ public class TimeLoggerFragment extends Fragment {
         view.findViewById(R.id.day_input_view).setOnClickListener(view12 -> daySetter.setDialog());
         view.findViewById(R.id.arrival_time_input_view).setOnClickListener(view12 -> arrivalTimeSetter.setDialog());
         view.findViewById(R.id.leaving_time_input_view).setOnClickListener(view12 -> leavingTimeSetter.setDialog());
+
+        view.findViewById(R.id.change_password_button).setOnClickListener(view12 -> showChangePasswordDialog());
 
         view.findViewById(R.id.add_log_button).setOnClickListener(view1 -> {
             Calendar day = daySetter.getDateAndTime();
@@ -105,5 +110,16 @@ public class TimeLoggerFragment extends Fragment {
                     .navigate(TimeLoggerFragmentDirections.actionTimeLoggerFragmentToStatisticsFragments());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPositiveButtonClick(Pair<String, String> passwords) {
+        viewModel.changePassword(passwords);
+    }
+
+    private void showChangePasswordDialog() {
+        ChangePasswordDialogFragment dialog = new ChangePasswordDialogFragment();
+        dialog.setTargetFragment(this, 1);
+        dialog.show(requireFragmentManager(), "TAG");
     }
 }

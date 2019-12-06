@@ -42,4 +42,9 @@ public class StatisticsViewModel extends BaseViewModel {
         this.isFiltered = true;
         this.logs.setValue(mapper.convertToUi(this.repository.getTimeLogs(start, end)));
     }
+
+    public void deleteLog(int logId) {
+        this.isFiltered = false;
+        this.logs.setValue(mapper.convertToUi(this.repository.deleteLog(logId)));
+    }
 }

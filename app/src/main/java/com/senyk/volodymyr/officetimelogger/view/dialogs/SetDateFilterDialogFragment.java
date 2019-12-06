@@ -13,16 +13,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.senyk.volodymyr.officetimelogger.R;
+import com.senyk.volodymyr.officetimelogger.view.helpers.datetime.DateSetter;
 import com.senyk.volodymyr.officetimelogger.view.helpers.datetime.DateTimeSetter;
-import com.senyk.volodymyr.officetimelogger.view.helpers.datetime.TimeSetter;
 
 import java.util.Calendar;
 
 public class SetDateFilterDialogFragment extends DialogFragment {
-    private DialogPositiveButtonClickListener clickListener;
+    private FilterDialogPositiveButtonClickListener clickListener;
 
-    private DateTimeSetter startTimeSetter;
-    private DateTimeSetter endTimeSetter;
+    private DateTimeSetter startDateSetter;
+    private DateTimeSetter endDateSetter;
 
     @SuppressLint("InflateParams")
     @Override
@@ -34,8 +34,8 @@ public class SetDateFilterDialogFragment extends DialogFragment {
         dialogBuilder.setTitle(requireContext().getString(R.string.time_filters_dialog_fragment_title))
                 .setView(inflater.inflate(R.layout.dialog_fragment_content_date_filter, null))
                 .setPositiveButton(R.string.dialog_answer_continue, (dialog, id) -> {
-                    Calendar startTime = startTimeSetter.getDateAndTime();
-                    Calendar endTime = endTimeSetter.getDateAndTime();
+                    Calendar startTime = startDateSetter.getDateAndTime();
+                    Calendar endTime = endDateSetter.getDateAndTime();
                     if (startTime.getTimeInMillis() > endTime.getTimeInMillis()) {
                         Toast.makeText(requireContext(), getString(R.string.filters_time_mismatch_error), Toast.LENGTH_LONG).show();
                     } else {
@@ -51,17 +51,17 @@ public class SetDateFilterDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         if (getDialog() != null) {
-            startTimeSetter = new TimeSetter(getDialog().findViewById(R.id.start_time_input_view), TimeSetter.Defaults.ARRIVAL_TIME);
-            endTimeSetter = new TimeSetter(getDialog().findViewById(R.id.end_time_input_view), TimeSetter.Defaults.LEAVING_TIME);
-            getDialog().findViewById(R.id.start_time_input_view).setOnClickListener(view12 -> startTimeSetter.setDialog());
-            getDialog().findViewById(R.id.end_time_input_view).setOnClickListener(view12 -> endTimeSetter.setDialog());
+            startDateSetter = new DateSetter(getDialog().findViewById(R.id.start_time_input_view));
+            endDateSetter = new DateSetter(getDialog().findViewById(R.id.end_time_input_view));
+            getDialog().findViewById(R.id.start_time_input_view).setOnClickListener(view12 -> startDateSetter.setDialog());
+            getDialog().findViewById(R.id.end_time_input_view).setOnClickListener(view12 -> endDateSetter.setDialog());
         }
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.clickListener = (DialogPositiveButtonClickListener) getTargetFragment();
+        this.clickListener = (FilterDialogPositiveButtonClickListener) getTargetFragment();
     }
 
     @Override
