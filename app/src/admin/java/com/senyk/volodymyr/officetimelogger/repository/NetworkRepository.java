@@ -5,12 +5,14 @@ import android.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.senyk.volodymyr.officetimelogger.mappers.responsedto.PairsResponseDtoMapper;
 import com.senyk.volodymyr.officetimelogger.mappers.responsedto.TimeLogsResponseDtoMapper;
 import com.senyk.volodymyr.officetimelogger.mappers.responsedto.UsersResponseDtoMapper;
 import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
 import com.senyk.volodymyr.officetimelogger.models.dto.UserDto;
 import com.senyk.volodymyr.officetimelogger.models.response.AllEmployees;
 import com.senyk.volodymyr.officetimelogger.models.response.LogResponse;
+import com.senyk.volodymyr.officetimelogger.models.response.PairsResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class NetworkRepository implements TimeLoggerRepository {
     private final Gson jsonConverter;
     private final UsersResponseDtoMapper usersMapper;
     private final TimeLogsResponseDtoMapper logsMapper;
+    private final PairsResponseDtoMapper pairsMapper;
 
     private static final String BASE_URL = "https://androidapptimetable.000webhostapp.com/";
     private static NetworkRepository repository;
@@ -40,6 +43,7 @@ public class NetworkRepository implements TimeLoggerRepository {
         this.jsonConverter = new GsonBuilder().create();
         this.usersMapper = new UsersResponseDtoMapper();
         this.logsMapper = new TimeLogsResponseDtoMapper();
+        this.pairsMapper = new PairsResponseDtoMapper(this.usersMapper, this.logsMapper);
     }
 
     public static NetworkRepository getFakeRepository() {
@@ -77,12 +81,12 @@ public class NetworkRepository implements TimeLoggerRepository {
     @Override
     public Single<List<Pair<UserDto, TimeLogDto>>> getLogByDay(long start, long end) {
         return Single.fromCallable(() -> {
-            String params = "date=" + start;
+            String params = "period_start=" + start / 1000 + "&period_end=" + end / 1000;
             String response = makeRequest("get_stat_by_day.php", params);
-            Log.e("ANSWER", response);
-            //    AllEmployees employeesList = jsonConverter.fromJson(response, AllEmployees.class);
-            return Collections.emptyList();
-        });//.map(this.usersMapper::convertToDtoList);
+            PairsResponse pairsResponse = jsonConverter.fromJson(response, PairsResponse.class);
+            Log.e("ANSWER", pairsResponse.getPairs().size()+"");
+            return pairsMapper.convertToDto(pairsResponse.getPairs());
+        });
     }
 
     @Override
@@ -91,7 +95,7 @@ public class NetworkRepository implements TimeLoggerRepository {
             String params = "personal_number=" + userId + "&month=" + (mountNumber);
             String response = makeRequest("get_stat_by_month.php", params);
             LogResponse logResponse = jsonConverter.fromJson(response, LogResponse.class);
-            return this.logsMapper.convertToDto(logResponse.getLogs());
+            return this.logsMapper.convertToDtoList(logResponse.getLogs());
         });
     }
 

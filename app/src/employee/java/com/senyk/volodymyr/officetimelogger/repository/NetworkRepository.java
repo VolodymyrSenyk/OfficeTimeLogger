@@ -127,8 +127,7 @@ public class NetworkRepository implements TimeLoggerRepository {
     @Override
     public Completable changePassword(Pair<String, String> passwords) {
         return Completable.fromCallable((Callable<Boolean>) () -> {
-        //    String params = "personal_number=" + userId + "old_password=" + passwords.first + "&new_password=" + passwords.second;
-            String params = "old_password=" + passwords.first + "&new_password=" + passwords.second;
+            String params = "personal_number=" + userId + "&old_password=" + passwords.first + "&new_password=" + passwords.second;
             String response = makeRequest("change_password.php", params);
             if (response.contains("error")) {
                 ServerError error = jsonConverter.fromJson(response, ServerError.class);

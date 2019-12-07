@@ -3,7 +3,7 @@
     <string name="statistics_screen">Статистика</string>
 
     <string name="user_names_output">%1$s %2$s %3$s</string>
-    <string name="user_number_output">Табельный номер %1$d</string>
+    <string name="user_number_output">Табельный номер: %1$d</string>
 
     <string name="user_adding_dialog_fragment_title">Добавление пользователя</string>
     <string name="user_first_name_input_hint">Имя</string>
