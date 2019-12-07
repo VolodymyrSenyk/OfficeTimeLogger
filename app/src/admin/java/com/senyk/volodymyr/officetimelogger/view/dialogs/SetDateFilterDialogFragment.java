@@ -32,7 +32,19 @@ public class SetDateFilterDialogFragment extends DialogFragment {
                 .setView(inflater.inflate(R.layout.dialog_fragment_content_day_filter, null))
                 .setPositiveButton(R.string.dialog_answer_continue, (dialog, id) -> {
                     Calendar day = daySetter.getDateAndTime();
-                    clickListener.onPositiveButtonClick(day.getTimeInMillis());
+                    Calendar start = Calendar.getInstance();
+                    start.set(Calendar.YEAR, day.get(Calendar.YEAR));
+                    start.set(Calendar.MONTH, day.get(Calendar.MONTH));
+                    start.set(Calendar.DAY_OF_MONTH, day.get(Calendar.DAY_OF_MONTH));
+                    start.set(Calendar.HOUR_OF_DAY, 0);
+                    start.set(Calendar.MINUTE, 0);
+                    Calendar end = Calendar.getInstance();
+                    end.set(Calendar.YEAR, day.get(Calendar.YEAR));
+                    end.set(Calendar.MONTH, day.get(Calendar.MONTH));
+                    end.set(Calendar.DAY_OF_MONTH, day.get(Calendar.DAY_OF_MONTH));
+                    end.set(Calendar.HOUR_OF_DAY, 23);
+                    end.set(Calendar.MINUTE, 59);
+                    clickListener.onPositiveButtonClick(start.getTimeInMillis(), end.getTimeInMillis());
                 })
                 .setNegativeButton(R.string.dialog_answer_cancel, (dialog, id) -> {
                 });

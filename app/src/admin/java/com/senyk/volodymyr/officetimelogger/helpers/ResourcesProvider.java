@@ -38,7 +38,7 @@ public class ResourcesProvider {
         return this.context.getString(
                 R.string.total_time_format,
                 (int) time,
-                (int) time * 100);
+                (int) (time % 1 * 100));
     }
 
     public String getPasswordSuccessfullyResetMessage() {

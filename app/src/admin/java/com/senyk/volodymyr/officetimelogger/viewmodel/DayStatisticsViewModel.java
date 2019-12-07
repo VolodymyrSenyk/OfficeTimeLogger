@@ -6,11 +6,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.senyk.volodymyr.officetimelogger.mappers.dtoui.PairsMapper;
+import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
+import com.senyk.volodymyr.officetimelogger.models.dto.UserDto;
 import com.senyk.volodymyr.officetimelogger.models.ui.TimeLogUi;
 import com.senyk.volodymyr.officetimelogger.models.ui.UserUi;
 import com.senyk.volodymyr.officetimelogger.repository.TimeLoggerRepository;
 
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class DayStatisticsViewModel extends BaseViewModel {
     private final TimeLoggerRepository repository;
@@ -28,7 +33,15 @@ public class DayStatisticsViewModel extends BaseViewModel {
         return this.logs;
     }
 
-    public void loadUsersAndLogs(long date) {
-    //    this.logs.setValue(pairsMapper.convertToUi(repository.getLogByDay(date)));
+    public void loadUsersAndLogs(long start, long end) {
+        this.repository.getLogByDay(start, end)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MainSingleObserver<List<Pair<UserDto, TimeLogDto>>>() {
+                    @Override
+                    public void onSuccess(List<Pair<UserDto, TimeLogDto>> dtos) {
+                        logs.setValue(pairsMapper.convertToUi(dtos));
+                    }
+                });
     }
 }

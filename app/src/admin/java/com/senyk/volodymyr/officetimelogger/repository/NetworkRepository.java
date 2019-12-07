@@ -1,10 +1,16 @@
 package com.senyk.volodymyr.officetimelogger.repository;
 
+import android.util.Log;
+import android.util.Pair;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.senyk.volodymyr.officetimelogger.mappers.responsedto.TimeLogsResponseDtoMapper;
 import com.senyk.volodymyr.officetimelogger.mappers.responsedto.UsersResponseDtoMapper;
+import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
 import com.senyk.volodymyr.officetimelogger.models.dto.UserDto;
 import com.senyk.volodymyr.officetimelogger.models.response.AllEmployees;
+import com.senyk.volodymyr.officetimelogger.models.response.LogResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -24,6 +31,7 @@ import io.reactivex.Single;
 public class NetworkRepository implements TimeLoggerRepository {
     private final Gson jsonConverter;
     private final UsersResponseDtoMapper usersMapper;
+    private final TimeLogsResponseDtoMapper logsMapper;
 
     private static final String BASE_URL = "https://androidapptimetable.000webhostapp.com/";
     private static NetworkRepository repository;
@@ -31,6 +39,7 @@ public class NetworkRepository implements TimeLoggerRepository {
     private NetworkRepository() {
         this.jsonConverter = new GsonBuilder().create();
         this.usersMapper = new UsersResponseDtoMapper();
+        this.logsMapper = new TimeLogsResponseDtoMapper();
     }
 
     public static NetworkRepository getFakeRepository() {
@@ -49,7 +58,11 @@ public class NetworkRepository implements TimeLoggerRepository {
 
     @Override
     public Completable resetPassword(int userId) {
-        return Completable.complete();
+        return Completable.fromCallable((Callable<Boolean>) () -> {
+            String params = "personal_number=" + userId;
+            String response = makeRequest("reset_password.php", params);
+            return response.isEmpty();
+        });
     }
 
     @Override
@@ -59,6 +72,27 @@ public class NetworkRepository implements TimeLoggerRepository {
             AllEmployees employeesList = jsonConverter.fromJson(response, AllEmployees.class);
             return employeesList.getEmployees();
         }).map(this.usersMapper::convertToDtoList);
+    }
+
+    @Override
+    public Single<List<Pair<UserDto, TimeLogDto>>> getLogByDay(long start, long end) {
+        return Single.fromCallable(() -> {
+            String params = "date=" + start;
+            String response = makeRequest("get_stat_by_day.php", params);
+            Log.e("ANSWER", response);
+            //    AllEmployees employeesList = jsonConverter.fromJson(response, AllEmployees.class);
+            return Collections.emptyList();
+        });//.map(this.usersMapper::convertToDtoList);
+    }
+
+    @Override
+    public Single<List<TimeLogDto>> getLogByMonth(int userId, int mountNumber) {
+        return Single.fromCallable(() -> {
+            String params = "personal_number=" + userId + "&month=" + (mountNumber);
+            String response = makeRequest("get_stat_by_month.php", params);
+            LogResponse logResponse = jsonConverter.fromJson(response, LogResponse.class);
+            return this.logsMapper.convertToDto(logResponse.getLogs());
+        });
     }
 
     private String makeRequest(String requestUrl, String params) {

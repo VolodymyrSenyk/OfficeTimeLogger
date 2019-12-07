@@ -5,13 +5,21 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class LogResponse {
+public class EmployeeResponse {
+    @SerializedName("employee")
+    @Expose
+    private List<Employee> employee = null;
     @SerializedName("message")
     @Expose
     private String message;
-    @SerializedName("logs")
-    @Expose
-    private List<TimeLog> logs = null;
+
+    public List<Employee> getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(List<Employee> employee) {
+        this.employee = employee;
+    }
 
     public String getMessage() {
         return message;
@@ -21,11 +29,4 @@ public class LogResponse {
         this.message = message;
     }
 
-    public List<TimeLog> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(List<TimeLog> logs) {
-        this.logs = logs;
-    }
 }

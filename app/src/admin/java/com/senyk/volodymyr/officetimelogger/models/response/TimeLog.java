@@ -3,7 +3,7 @@ package com.senyk.volodymyr.officetimelogger.models.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Log {
+public class TimeLog {
     @SerializedName("id")
     @Expose
     private String id;

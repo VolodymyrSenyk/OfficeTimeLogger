@@ -35,7 +35,11 @@ public class SetDateFilterDialogFragment extends DialogFragment {
                 .setView(inflater.inflate(R.layout.dialog_fragment_content_date_filter, null))
                 .setPositiveButton(R.string.dialog_answer_continue, (dialog, id) -> {
                     Calendar startTime = startDateSetter.getDateAndTime();
+                    startTime.set(Calendar.HOUR_OF_DAY, 0);
+                    startTime.set(Calendar.MINUTE, 1);
                     Calendar endTime = endDateSetter.getDateAndTime();
+                    endTime.set(Calendar.HOUR_OF_DAY, 23);
+                    endTime.set(Calendar.MINUTE, 59);
                     if (startTime.getTimeInMillis() > endTime.getTimeInMillis()) {
                         Toast.makeText(requireContext(), getString(R.string.filters_time_mismatch_error), Toast.LENGTH_LONG).show();
                     } else {

@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import com.senyk.volodymyr.officetimelogger.models.dto.CredentialsDto;
 import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
+import com.senyk.volodymyr.officetimelogger.models.dto.UserDto;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface TimeLoggerRepository {
     Completable logIn(CredentialsDto creds);
 
     Completable logTime(TimeLogDto log);
+
+    Single<UserDto> getUserData();
 
     Single<List<TimeLogDto>> deleteLog(int logId);
 

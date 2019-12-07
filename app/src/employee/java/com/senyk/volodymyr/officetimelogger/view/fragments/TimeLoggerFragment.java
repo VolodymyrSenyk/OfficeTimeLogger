@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
+import com.senyk.volodymyr.officetimelogger.mappers.dtoui.UserMapper;
 import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
 import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.ChangePasswordDialogFragment;
@@ -50,7 +51,7 @@ public class TimeLoggerFragment extends Fragment implements ChangePasswordDialog
         setHasOptionsMenu(true);
         this.viewModel = new TimeLoggerViewModel(
                 NetworkRepository.getFakeRepository(),
-                new ResourcesProvider(requireContext()));
+                new ResourcesProvider(requireContext()), new UserMapper());
 
         ((TextView) view.findViewById(R.id.screen_title)).setText(R.string.time_logger_screen);
         view.findViewById(R.id.back_button).setVisibility(View.GONE);
@@ -102,8 +103,16 @@ public class TimeLoggerFragment extends Fragment implements ChangePasswordDialog
                     }
                 });
 
+        this.viewModel.getUserData().observe(this.getViewLifecycleOwner(), userData -> {
+            String names = userData.getLastName() + " " + userData.getFirstName().toCharArray()[0] + ". " +
+                    userData.getMiddleName().toCharArray()[0] + ".";
+            ((TextView) view.findViewById(R.id.first_last_middle_name_output)).setText(names);
+        });
+
         this.viewModel.getMessage().observe(this.getViewLifecycleOwner(), message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
+
+        this.viewModel.loadUserData();
     }
 
     @Override

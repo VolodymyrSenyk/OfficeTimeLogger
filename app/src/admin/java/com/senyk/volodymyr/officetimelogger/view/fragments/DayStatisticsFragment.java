@@ -80,7 +80,7 @@ public class DayStatisticsFragment extends Fragment implements DateFilterDialogP
     }
 
     @Override
-    public void onPositiveButtonClick(long date) {
-        viewModel.loadUsersAndLogs(date);
+    public void onPositiveButtonClick(long start, long end) {
+        viewModel.loadUsersAndLogs(start, end);
     }
 }

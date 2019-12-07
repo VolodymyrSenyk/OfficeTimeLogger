@@ -25,6 +25,7 @@ import com.senyk.volodymyr.officetimelogger.viewmodel.UserStatisticsViewModel;
 
 public class UserStatisticsFragment extends Fragment implements MonthFilterPositiveButtonClickListener {
     private UserStatisticsViewModel viewModel;
+    private UserStatisticsFragmentArgs args;
 
     @Nullable
     @Override
@@ -39,6 +40,10 @@ public class UserStatisticsFragment extends Fragment implements MonthFilterPosit
         this.viewModel = new UserStatisticsViewModel(
                 NetworkRepository.getFakeRepository(),
                 new TimeLogsMapper(new ResourcesProvider(requireContext())));
+
+        if (this.getArguments() != null) {
+            this.args = UserStatisticsFragmentArgs.fromBundle(this.getArguments());
+        }
 
         RecyclerView dataList = view.findViewById(R.id.statistics_list);
         dataList.setHasFixedSize(true);
@@ -76,6 +81,9 @@ public class UserStatisticsFragment extends Fragment implements MonthFilterPosit
 
     @Override
     public void onPositiveButtonClick(int monthIndex) {
-        viewModel.loadUserLogs(monthIndex);
+        viewModel.loadUserLogs(
+                args.getUserId(),
+                monthIndex
+        );
     }
 }

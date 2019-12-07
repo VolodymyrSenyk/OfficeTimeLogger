@@ -8,8 +8,11 @@ import com.senyk.volodymyr.officetimelogger.exceptions.LogExistsException;
 import com.senyk.volodymyr.officetimelogger.exceptions.NoSuchUserException;
 import com.senyk.volodymyr.officetimelogger.exceptions.PasswordsMismatchException;
 import com.senyk.volodymyr.officetimelogger.mappers.responsedto.TimeLogsResponseDtoMapper;
+import com.senyk.volodymyr.officetimelogger.mappers.responsedto.UserDataResponseDtoMapper;
 import com.senyk.volodymyr.officetimelogger.models.dto.CredentialsDto;
 import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
+import com.senyk.volodymyr.officetimelogger.models.dto.UserDto;
+import com.senyk.volodymyr.officetimelogger.models.response.EmployeeResponse;
 import com.senyk.volodymyr.officetimelogger.models.response.LogResponse;
 import com.senyk.volodymyr.officetimelogger.models.response.ServerError;
 
@@ -31,15 +34,17 @@ import io.reactivex.Single;
 public class NetworkRepository implements TimeLoggerRepository {
     private final Gson jsonConverter;
     private int userId;
-    private final TimeLogsResponseDtoMapper mapper;
+    private final TimeLogsResponseDtoMapper timeLogsMapper;
+    private final UserDataResponseDtoMapper userMapper;
 
     private static final String BASE_URL = "https://androidapptimetable.000webhostapp.com/";
 
     private static NetworkRepository repository;
 
     private NetworkRepository() {
+        this.userMapper = new UserDataResponseDtoMapper();
         this.jsonConverter = new GsonBuilder().create();
-        this.mapper = new TimeLogsResponseDtoMapper();
+        this.timeLogsMapper = new TimeLogsResponseDtoMapper();
     }
 
     public static NetworkRepository getFakeRepository() {
@@ -80,12 +85,22 @@ public class NetworkRepository implements TimeLoggerRepository {
     }
 
     @Override
+    public Single<UserDto> getUserData() {
+        return Single.fromCallable(() -> {
+            String params = "personal_number=" + userId;
+            String response = makeRequest("get_emloyee.php", params);
+            EmployeeResponse employeeResponse = jsonConverter.fromJson(response, EmployeeResponse.class);
+            return userMapper.convertToDto(employeeResponse.getEmployee().get(0));
+        });
+    }
+
+    @Override
     public Single<List<TimeLogDto>> deleteLog(int logId) {
         return Single.fromCallable(() -> {
             String params = "personal_number=" + userId + "&id=" + logId;
             String response = makeRequest("delete_log.php", params);
             LogResponse logResponse = jsonConverter.fromJson(response, LogResponse.class);
-            return mapper.convertToDto(logResponse.getLogs());
+            return timeLogsMapper.convertToDto(logResponse.getLogs());
         });
     }
 
@@ -95,7 +110,7 @@ public class NetworkRepository implements TimeLoggerRepository {
             String params = "personal_number=" + userId;
             String response = makeRequest("get_logs_by_number.php", params);
             LogResponse logResponse = jsonConverter.fromJson(response, LogResponse.class);
-            return mapper.convertToDto(logResponse.getLogs());
+            return timeLogsMapper.convertToDto(logResponse.getLogs());
         });
     }
 
@@ -105,13 +120,14 @@ public class NetworkRepository implements TimeLoggerRepository {
             String params = "personal_number=" + userId + "&period_start=" + start / 1000 + "&period_end=" + end / 1000;
             String response = makeRequest("get_logs_in_period.php", params);
             LogResponse logResponse = jsonConverter.fromJson(response, LogResponse.class);
-            return mapper.convertToDto(logResponse.getLogs());
+            return timeLogsMapper.convertToDto(logResponse.getLogs());
         });
     }
 
     @Override
     public Completable changePassword(Pair<String, String> passwords) {
         return Completable.fromCallable((Callable<Boolean>) () -> {
+        //    String params = "personal_number=" + userId + "old_password=" + passwords.first + "&new_password=" + passwords.second;
             String params = "old_password=" + passwords.first + "&new_password=" + passwords.second;
             String response = makeRequest("change_password.php", params);
             if (response.contains("error")) {
