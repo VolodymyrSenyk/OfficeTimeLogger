@@ -1,19 +1,19 @@
 package com.senyk.volodymyr.officetimelogger.models.dto;
 
 public class CredentialsDto {
-    private final String userNumber;
-    private final String password;
+    private final int userNumber;
+    private final int password;
 
-    public CredentialsDto(String userNumber, String password) {
+    public CredentialsDto(int userNumber, int password) {
         this.userNumber = userNumber;
         this.password = password;
     }
 
-    public String getUserNumber() {
+    public int getUserNumber() {
         return userNumber;
     }
 
-    public String getPassword() {
+    public int getPassword() {
         return password;
     }
 }

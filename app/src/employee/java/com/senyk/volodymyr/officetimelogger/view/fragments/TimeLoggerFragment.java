@@ -21,7 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
 import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
-import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
+import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.ChangePasswordDialogFragment;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.ChangePasswordDialogPositiveButtonClickListener;
 import com.senyk.volodymyr.officetimelogger.view.helpers.datetime.DateSetter;
@@ -49,7 +49,7 @@ public class TimeLoggerFragment extends Fragment implements ChangePasswordDialog
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         this.viewModel = new TimeLoggerViewModel(
-                FakeRepository.getFakeRepository(),
+                NetworkRepository.getFakeRepository(),
                 new ResourcesProvider(requireContext()));
 
         ((TextView) view.findViewById(R.id.screen_title)).setText(R.string.time_logger_screen);

@@ -18,7 +18,7 @@ import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
 import com.senyk.volodymyr.officetimelogger.mappers.dtoui.PairsMapper;
 import com.senyk.volodymyr.officetimelogger.mappers.dtoui.TimeLogsMapper;
 import com.senyk.volodymyr.officetimelogger.mappers.dtoui.UsersMapper;
-import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
+import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
 import com.senyk.volodymyr.officetimelogger.view.adapters.EmptyStateAdapter;
 import com.senyk.volodymyr.officetimelogger.view.adapters.UsersLogsAdapter;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.DateFilterDialogPositiveButtonClickListener;
@@ -39,7 +39,7 @@ public class DayStatisticsFragment extends Fragment implements DateFilterDialogP
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         this.viewModel = new DayStatisticsViewModel(
-                FakeRepository.getFakeRepository(),
+                NetworkRepository.getFakeRepository(),
                 new PairsMapper(
                         new TimeLogsMapper(new ResourcesProvider(requireContext())),
                         new UsersMapper()));

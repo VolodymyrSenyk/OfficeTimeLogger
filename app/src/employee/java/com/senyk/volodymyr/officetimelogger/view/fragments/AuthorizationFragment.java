@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.senyk.volodymyr.officetimelogger.R;
-import com.senyk.volodymyr.officetimelogger.models.dto.CredentialsDto;
-import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
+import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
+import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
+import com.senyk.volodymyr.officetimelogger.viewmodel.AuthorizationViewModel;
 
 public class AuthorizationFragment extends Fragment {
     private AuthorizationViewModel viewModel;
@@ -28,7 +29,7 @@ public class AuthorizationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.viewModel = new AuthorizationViewModel(FakeRepository.getFakeRepository());
+        this.viewModel = new AuthorizationViewModel(NetworkRepository.getFakeRepository(), new ResourcesProvider(requireContext()));
 
         view.findViewById(R.id.log_in_button).setOnClickListener(view1 -> {
             String userNumber = ((TextView) view.findViewById(R.id.user_number_input_view)).getText().toString();
@@ -36,14 +37,14 @@ public class AuthorizationFragment extends Fragment {
             if (userNumber.equals("") || password.equals("")) {
                 Toast.makeText(requireContext(), getString(R.string.empty_fields_error), Toast.LENGTH_LONG).show();
             } else {
-                viewModel.logIn(new CredentialsDto(userNumber, password));
+                viewModel.logIn(userNumber, password);
             }
         });
 
         this.viewModel.getMessage().observe(this.getViewLifecycleOwner(), message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
-        this.viewModel.getUserId().observe(this.getViewLifecycleOwner(), userId -> {
-            if (userId != -1) NavHostFragment.findNavController(this)
+        this.viewModel.isAuthorized().observe(this.getViewLifecycleOwner(), isAuthorized -> {
+            if (isAuthorized) NavHostFragment.findNavController(this)
                     .navigate(AuthorizationFragmentDirections.actionAuthorizationFragmentToTimeLoggerFragment());
         });
     }

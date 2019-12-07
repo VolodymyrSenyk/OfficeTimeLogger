@@ -7,16 +7,19 @@ import com.senyk.volodymyr.officetimelogger.models.dto.TimeLogDto;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
+
 public interface TimeLoggerRepository {
-    int logIn(CredentialsDto creds);
+    Completable logIn(CredentialsDto creds);
 
-    boolean logTime(TimeLogDto log);
+    Completable logTime(TimeLogDto log);
 
-    List<TimeLogDto> deleteLog(int logId);
+    Single<List<TimeLogDto>> deleteLog(int logId);
 
-    List<TimeLogDto> getTimeLogs();
+    Single<List<TimeLogDto>> getTimeLogs();
 
-    List<TimeLogDto> getTimeLogs(long start, long end);
+    Single<List<TimeLogDto>> getTimeLogs(long start, long end);
 
-    boolean changePassword(Pair<String, String> passwords);
+    Completable changePassword(Pair<String, String> passwords);
 }

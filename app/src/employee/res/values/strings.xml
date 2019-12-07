@@ -8,6 +8,7 @@
     <string name="password_input_hint">Пароль</string>
     <string name="log_in_button">Войти</string>
     <string name="empty_fields_error">Все поля должны быть заполнены</string>
+    <string name="no_such_user_error">Пользователь с таким табельным номером не найден</string>
     <string name="passwords_mismatch_error">Не верный пароль</string>
 
     <string name="day_input_hint">День</string>

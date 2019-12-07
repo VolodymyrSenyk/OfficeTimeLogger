@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
 import com.senyk.volodymyr.officetimelogger.mappers.dtoui.TimeLogsMapper;
-import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
+import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
 import com.senyk.volodymyr.officetimelogger.view.adapters.LogDeleteClickListener;
 import com.senyk.volodymyr.officetimelogger.view.adapters.TimeLogsAdapter;
 import com.senyk.volodymyr.officetimelogger.view.adapters.TimeLogsEmptyStateAdapter;
@@ -46,7 +46,7 @@ public class StatisticsFragment extends Fragment implements FilterDialogPositive
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         this.viewModel = new StatisticsViewModel(
-                FakeRepository.getFakeRepository(),
+                NetworkRepository.getFakeRepository(),
                 new TimeLogsMapper(new ResourcesProvider(requireContext())));
 
         ((TextView) view.findViewById(R.id.screen_title)).setText(R.string.statistics_screen);

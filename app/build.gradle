@@ -60,4 +60,10 @@ dependencies {
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    // Gson
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    // RxJava 2
+    implementation "io.reactivex.rxjava2:rxandroid:$rxjava_version"
 }

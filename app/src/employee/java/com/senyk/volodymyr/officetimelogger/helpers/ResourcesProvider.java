@@ -4,6 +4,9 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.senyk.volodymyr.officetimelogger.R;
+import com.senyk.volodymyr.officetimelogger.exceptions.LogExistsException;
+import com.senyk.volodymyr.officetimelogger.exceptions.NoSuchUserException;
+import com.senyk.volodymyr.officetimelogger.exceptions.PasswordsMismatchException;
 
 import java.util.Calendar;
 
@@ -47,5 +50,15 @@ public class ResourcesProvider {
 
     public String getPasswordSuccessfullyChangedMessage() {
         return this.context.getString(R.string.password_successfully_changed);
+    }
+
+    public String getErrorMessage(Throwable e) {
+        if (e instanceof NoSuchUserException)
+            return this.context.getString(R.string.no_such_user_error);
+        if (e instanceof PasswordsMismatchException)
+            return this.context.getString(R.string.passwords_mismatch_error);
+        if (e instanceof LogExistsException)
+            return this.context.getString(R.string.log_exists_error);
+        return "";
     }
 }

@@ -16,6 +16,7 @@ public class UserStatisticsViewModel extends BaseViewModel {
     private MutableLiveData<List<TimeLogUi>> logs = new MutableLiveData<>();
 
     public UserStatisticsViewModel(TimeLoggerRepository repository, TimeLogsMapper timeLogsMapper) {
+        super("UserStatisticsVM");
         this.repository = repository;
         this.timeLogsMapper = timeLogsMapper;
     }
@@ -25,6 +26,6 @@ public class UserStatisticsViewModel extends BaseViewModel {
     }
 
     public void loadUserLogs(int monthNumber) {
-        this.logs.setValue(timeLogsMapper.convertToUiList(repository.getLogByMonth(monthNumber)));
+    //    this.logs.setValue(timeLogsMapper.convertToUiList(repository.getLogByMonth(monthNumber)));
     }
 }

@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
 import com.senyk.volodymyr.officetimelogger.mappers.dtoui.UsersMapper;
-import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
+import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
 import com.senyk.volodymyr.officetimelogger.view.adapters.EmptyStateAdapter;
 import com.senyk.volodymyr.officetimelogger.view.adapters.UserClickListener;
 import com.senyk.volodymyr.officetimelogger.view.adapters.UsersAdapter;
@@ -46,7 +46,7 @@ public class UsersListFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         this.viewModel = new UsersListViewModel(
-                FakeRepository.getFakeRepository(),
+                NetworkRepository.getFakeRepository(),
                 new UsersMapper(),
                 new ResourcesProvider(requireContext()));
 

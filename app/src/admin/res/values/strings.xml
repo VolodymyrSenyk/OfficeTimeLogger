@@ -1,5 +1,5 @@
 <resources>
-    <string name="users_list_screen">Добавление записей</string>
+    <string name="users_list_screen">Пользователи</string>
     <string name="statistics_screen">Статистика</string>
 
     <string name="user_names_output">%1$s %2$s %3$s</string>

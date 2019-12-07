@@ -19,6 +19,7 @@ public class DayStatisticsViewModel extends BaseViewModel {
     private MutableLiveData<List<Pair<UserUi, TimeLogUi>>> logs = new MutableLiveData<>();
 
     public DayStatisticsViewModel(TimeLoggerRepository repository, PairsMapper pairsMapper) {
+        super("DayStatisticsVM");
         this.repository = repository;
         this.pairsMapper = pairsMapper;
     }
@@ -28,6 +29,6 @@ public class DayStatisticsViewModel extends BaseViewModel {
     }
 
     public void loadUsersAndLogs(long date) {
-        this.logs.setValue(pairsMapper.convertToUi(repository.getLogByDay(date)));
+    //    this.logs.setValue(pairsMapper.convertToUi(repository.getLogByDay(date)));
     }
 }

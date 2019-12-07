@@ -11,6 +11,9 @@ import com.senyk.volodymyr.officetimelogger.repository.TimeLoggerRepository;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 public class UsersListViewModel extends BaseViewModel {
     private final TimeLoggerRepository repository;
     private final UsersMapper usersMapper;
@@ -18,34 +21,50 @@ public class UsersListViewModel extends BaseViewModel {
 
     private MutableLiveData<List<UserUi>> users = new MutableLiveData<>();
 
+    public LiveData<List<UserUi>> getUsers() {
+        return this.users;
+    }
+
     public UsersListViewModel(TimeLoggerRepository repository, UsersMapper usersMapper, ResourcesProvider resourcesProvider) {
+        super("UsersListVM");
         this.repository = repository;
         this.usersMapper = usersMapper;
         this.resourcesProvider = resourcesProvider;
     }
 
-    public LiveData<List<UserUi>> getUsers() {
-        return this.users;
-    }
-
     public void loadUsers() {
-        this.users.setValue(usersMapper.convertToUiList(repository.getUsers()));
+        this.repository.getUsers()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MainSingleObserver<List<UserDto>>() {
+                    @Override
+                    public void onSuccess(List<UserDto> usersDtos) {
+                        users.setValue(usersMapper.convertToUiList(usersDtos));
+                    }
+                });
     }
 
     public void addNewUser(String firstName, String lastName, String middleName) {
-        int newNumber = repository.addUser(new UserDto(firstName, lastName, middleName));
-        if (newNumber != -1) {
-            loadUsers();
-        } else {
-            message.setValue("An error occurred");
-        }
+        this.repository.addUser(new UserDto(firstName, lastName, middleName))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MainCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        loadUsers();
+                    }
+                });
     }
 
     public void resetPassword(int userId) {
-        if (repository.resetPassword(userId)) {
-            message.setValue(resourcesProvider.getPasswordSuccessfullyResetMessage());
-        } else {
-            message.setValue("An error occurred");
-        }
+        this.repository.resetPassword(userId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MainCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        message.setValue(resourcesProvider.getPasswordSuccessfullyResetMessage());
+                    }
+                });
     }
 }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.helpers.ResourcesProvider;
 import com.senyk.volodymyr.officetimelogger.mappers.dtoui.TimeLogsMapper;
-import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
+import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
 import com.senyk.volodymyr.officetimelogger.view.adapters.EmptyStateAdapter;
 import com.senyk.volodymyr.officetimelogger.view.adapters.TimeLogsAdapter;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.MonthFilterPositiveButtonClickListener;
@@ -37,7 +37,7 @@ public class UserStatisticsFragment extends Fragment implements MonthFilterPosit
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         this.viewModel = new UserStatisticsViewModel(
-                FakeRepository.getFakeRepository(),
+                NetworkRepository.getFakeRepository(),
                 new TimeLogsMapper(new ResourcesProvider(requireContext())));
 
         RecyclerView dataList = view.findViewById(R.id.statistics_list);
