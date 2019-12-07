@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">OfficeTimeLogger</string>
-    <string name="time_logger_screen">Логирование времени</string>
-    <string name="statistics_screen">Статистика</string>
 
     <string name="action_show_statistics">Статистика</string>
     <string name="action_filter_list">Задать границы</string>
@@ -10,40 +8,11 @@
     <string name="dialog_answer_cancel">Отмена</string>
 
     <string name="total_time_format">%1$d ч. %2$d мин.</string>
-
     <string name="total_time_output">В офисе проведено %1$s</string>
     <string name="arrival_time_output">Время прибытия: %1$s</string>
     <string name="leaving_time_output">Время ухода: %1$s</string>
     <string name="time_logs_empty_state">Записи не найдены</string>
-    <string name="log_exists_error">Запись на этот день уже существует</string>
 
-    <string name="user_number_input_hint">Табельный номер</string>
-    <string name="password_input_hint">Пароль</string>
-    <string name="log_in_button">Войти</string>
     <string name="empty_fields_error">Все поля должны быть заполнены</string>
-    <string name="passwords_mismatch_error">Не верный пароль</string>
-
-    <string name="day_input_hint">День</string>
-    <string name="arrival_time_input_hint">Время прибытия</string>
-    <string name="leaving_time_input_hint">Время ухода</string>
-    <string name="day_input">Лог за %1$s</string>
-    <string name="arrival_time_input">Пришёл в %1$s</string>
-    <string name="leaving_time_input">Ушёл в %1$s</string>
-    <string name="add_log_button">Добавить запись</string>
-    <string name="time_mismatch_error">Время прибытия не может быть больше чем время ухода</string>
-    <string name="time_successfully_logged">Запись успешно добавлена</string>
-
-    <string name="time_filters_dialog_fragment_title">Установите диапазон отображения данных</string>
-    <string name="start_time_input_hint">Левая граница</string>
-    <string name="end_time_input_hint">Правая граница</string>
-    <string name="filters_time_mismatch_error">Левая граница поиска не может быть больше правой</string>
-
-    <string name="change_password_dialog_fragment_title">Смена пароля</string>
-    <string name="old_password_input_hint">Старый пароль</string>
-    <string name="new_password_input_hint">Новый пароль</string>
-    <string name="password_successfully_changed">Пароль успешно изменён</string>
-
-    <string name="delete_log_dialog_fragment_title">Удалить запись?</string>
-    <string name="delete_log_dialog_fragment_message">Запись будет безвозвратно удалена</string>
 
 </resources>

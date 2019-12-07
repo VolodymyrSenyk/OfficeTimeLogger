@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/usersListFragment">
+
+    <fragment
+        android:id="@+id/userStatisticsFragment"
+        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.UserStatisticsFragment"
+        android:label="StatisticsFragment"
+        tools:layout="@layout/fragment_statistics" >
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersListFragment"
+        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.UsersListFragment"
+        android:label="TimeLoggerFragment"
+        tools:layout="@layout/fragment_users_list">
+        <action
+            android:id="@+id/action_usersListFragment_to_dayStatisticsFragment"
+            app:destination="@id/dayStatisticsFragment" />
+        <action
+            android:id="@+id/action_usersListFragment_to_userStatisticsFragment"
+            app:destination="@id/userStatisticsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dayStatisticsFragment"
+        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.DayStatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" />
+</navigation>

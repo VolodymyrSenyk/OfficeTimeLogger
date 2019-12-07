@@ -14,11 +14,11 @@
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.StatisticsFragment"
+        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.UserStatisticsFragment"
         android:label="StatisticsFragment" />
     <fragment
         android:id="@+id/timeLoggerFragment"
-        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.TimeLoggerFragment"
+        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.UsersListFragment"
         android:label="TimeLoggerFragment" >
         <action
             android:id="@+id/action_timeLoggerFragment_to_statisticsFragments"

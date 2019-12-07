@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -92,6 +93,14 @@ public class TimeLoggerFragment extends Fragment implements ChangePasswordDialog
                 );
             }
         });
+
+        requireActivity().getOnBackPressedDispatcher()
+                .addCallback(this.getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        requireActivity().finish();
+                    }
+                });
 
         this.viewModel.getMessage().observe(this.getViewLifecycleOwner(), message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());

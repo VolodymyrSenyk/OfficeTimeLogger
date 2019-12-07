@@ -15,7 +15,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.models.dto.CredentialsDto;
 import com.senyk.volodymyr.officetimelogger.repository.FakeRepository;
-import com.senyk.volodymyr.officetimelogger.viewmodel.AuthorizationViewModel;
 
 public class AuthorizationFragment extends Fragment {
     private AuthorizationViewModel viewModel;
