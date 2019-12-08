@@ -22,11 +22,18 @@ import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
 import com.senyk.volodymyr.officetimelogger.view.adapters.EmptyStateAdapter;
 import com.senyk.volodymyr.officetimelogger.view.adapters.UsersLogsAdapter;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.DateFilterDialogPositiveButtonClickListener;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.SendReportDialogFragment;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.SendReportPositiveButtonClickListener;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.SetDateFilterDialogFragment;
 import com.senyk.volodymyr.officetimelogger.viewmodel.DayStatisticsViewModel;
+import com.senyk.volodymyr.officetimelogger.viewmodel.SendReportViewModel;
 
-public class DayStatisticsFragment extends Fragment implements DateFilterDialogPositiveButtonClickListener {
+public class DayStatisticsFragment extends Fragment
+        implements DateFilterDialogPositiveButtonClickListener, SendReportPositiveButtonClickListener {
     private DayStatisticsViewModel viewModel;
+    private SendReportViewModel reportSenderViewModel;
+
+    private UsersLogsAdapter adapter;
 
     @Nullable
     @Override
@@ -43,19 +50,23 @@ public class DayStatisticsFragment extends Fragment implements DateFilterDialogP
                 new PairsMapper(
                         new TimeLogsMapper(new ResourcesProvider(requireContext())),
                         new UsersMapper()));
+        this.reportSenderViewModel = new SendReportViewModel();
 
         RecyclerView dataList = view.findViewById(R.id.statistics_list);
         dataList.setHasFixedSize(true);
         dataList.setNestedScrollingEnabled(false);
         dataList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        UsersLogsAdapter adapter = new UsersLogsAdapter(this);
+        this.adapter = new UsersLogsAdapter(this);
         EmptyStateAdapter emptyAdapter = new EmptyStateAdapter(this.getLayoutInflater());
         dataList.setAdapter(emptyAdapter);
 
         view.findViewById(R.id.back_button).setOnClickListener(view1 ->
                 NavHostFragment.findNavController(this).popBackStack()
         );
+
+        view.findViewById(R.id.send_report_button).setOnClickListener(view1 ->
+                showSendReportDialog());
 
         this.viewModel.getStatistics().observe(this.getViewLifecycleOwner(), statistics -> {
             if (statistics.isEmpty()) {
@@ -79,8 +90,19 @@ public class DayStatisticsFragment extends Fragment implements DateFilterDialogP
         dialog.show(requireFragmentManager(), "TAG");
     }
 
+    private void showSendReportDialog() {
+        SendReportDialogFragment dialog = new SendReportDialogFragment();
+        dialog.setTargetFragment(this, 1);
+        dialog.show(requireFragmentManager(), "TAG");
+    }
+
     @Override
     public void onPositiveButtonClick(long start, long end) {
         viewModel.loadUsersAndLogs(start, end);
+    }
+
+    @Override
+    public void onPositiveButtonClick(String address, String subject, String message) {
+        reportSenderViewModel.sendReportDay(requireContext(), address, subject, message, adapter.getItems());
     }
 }

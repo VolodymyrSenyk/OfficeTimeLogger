@@ -31,6 +31,10 @@ public class UsersLogsAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public List<Pair<UserUi, TimeLogUi>> getItems() {
+        return this.items;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -84,7 +84,6 @@ public class NetworkRepository implements TimeLoggerRepository {
             String params = "period_start=" + start / 1000 + "&period_end=" + end / 1000;
             String response = makeRequest("get_stat_by_day.php", params);
             PairsResponse pairsResponse = jsonConverter.fromJson(response, PairsResponse.class);
-            Log.e("ANSWER", pairsResponse.getPairs().size()+"");
             return pairsMapper.convertToDto(pairsResponse.getPairs());
         });
     }

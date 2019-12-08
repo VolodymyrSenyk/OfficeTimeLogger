@@ -1,6 +1,7 @@
 package com.senyk.volodymyr.officetimelogger.view.adapters;
 
 import android.content.Context;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.senyk.volodymyr.officetimelogger.R;
 import com.senyk.volodymyr.officetimelogger.models.ui.TimeLogUi;
+import com.senyk.volodymyr.officetimelogger.models.ui.UserUi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,10 @@ public class TimeLogsAdapter extends RecyclerView.Adapter {
     public void setItems(List<TimeLogUi> newList) {
         this.items = newList;
         notifyDataSetChanged();
+    }
+
+    public List<TimeLogUi> getItems() {
+        return this.items;
     }
 
     @NonNull

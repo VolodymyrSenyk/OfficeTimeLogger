@@ -20,11 +20,19 @@ import com.senyk.volodymyr.officetimelogger.repository.NetworkRepository;
 import com.senyk.volodymyr.officetimelogger.view.adapters.EmptyStateAdapter;
 import com.senyk.volodymyr.officetimelogger.view.adapters.TimeLogsAdapter;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.MonthFilterPositiveButtonClickListener;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.SendReportDialogFragment;
+import com.senyk.volodymyr.officetimelogger.view.dialogs.SendReportPositiveButtonClickListener;
 import com.senyk.volodymyr.officetimelogger.view.dialogs.SetMonthFilterDialogFragment;
+import com.senyk.volodymyr.officetimelogger.viewmodel.SendReportViewModel;
 import com.senyk.volodymyr.officetimelogger.viewmodel.UserStatisticsViewModel;
 
-public class UserStatisticsFragment extends Fragment implements MonthFilterPositiveButtonClickListener {
+public class UserStatisticsFragment extends Fragment
+        implements MonthFilterPositiveButtonClickListener, SendReportPositiveButtonClickListener {
     private UserStatisticsViewModel viewModel;
+    private SendReportViewModel reportSenderViewModel;
+
+    private TimeLogsAdapter adapter;
+
     private UserStatisticsFragmentArgs args;
 
     @Nullable
@@ -40,6 +48,7 @@ public class UserStatisticsFragment extends Fragment implements MonthFilterPosit
         this.viewModel = new UserStatisticsViewModel(
                 NetworkRepository.getFakeRepository(),
                 new TimeLogsMapper(new ResourcesProvider(requireContext())));
+        this.reportSenderViewModel = new SendReportViewModel();
 
         if (this.getArguments() != null) {
             this.args = UserStatisticsFragmentArgs.fromBundle(this.getArguments());
@@ -50,13 +59,16 @@ public class UserStatisticsFragment extends Fragment implements MonthFilterPosit
         dataList.setNestedScrollingEnabled(false);
         dataList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        TimeLogsAdapter adapter = new TimeLogsAdapter(this);
+        this.adapter = new TimeLogsAdapter(this);
         EmptyStateAdapter emptyAdapter = new EmptyStateAdapter(this.getLayoutInflater());
         dataList.setAdapter(emptyAdapter);
 
         view.findViewById(R.id.back_button).setOnClickListener(view1 ->
                 NavHostFragment.findNavController(this).popBackStack()
         );
+
+        view.findViewById(R.id.send_report_button).setOnClickListener(view1 ->
+                showSendReportDialog());
 
         this.viewModel.getLogs().observe(this.getViewLifecycleOwner(), timeLogs -> {
             if (timeLogs.isEmpty()) {
@@ -79,11 +91,22 @@ public class UserStatisticsFragment extends Fragment implements MonthFilterPosit
         dialog.show(requireFragmentManager(), "TAG");
     }
 
+    private void showSendReportDialog() {
+        SendReportDialogFragment dialog = new SendReportDialogFragment();
+        dialog.setTargetFragment(this, 1);
+        dialog.show(requireFragmentManager(), "TAG");
+    }
+
     @Override
     public void onPositiveButtonClick(int monthIndex) {
         viewModel.loadUserLogs(
                 args.getUserId(),
                 monthIndex
         );
+    }
+
+    @Override
+    public void onPositiveButtonClick(String address, String subject, String message) {
+        reportSenderViewModel.sendReportUser(requireContext(), address, subject, message, adapter.getItems());
     }
 }

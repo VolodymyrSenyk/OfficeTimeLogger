@@ -66,4 +66,7 @@ dependencies {
 
     // RxJava 2
     implementation "io.reactivex.rxjava2:rxandroid:$rxjava_version"
+
+    // Report output
+    implementation 'com.github.LucasFsc:Html2Pdf:0.2-beta'
 }
