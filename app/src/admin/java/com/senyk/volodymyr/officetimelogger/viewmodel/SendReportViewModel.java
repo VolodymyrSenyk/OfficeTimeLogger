@@ -40,7 +40,7 @@ public class SendReportViewModel extends ViewModel {
         send(context, address, subject, message, reportFile);
     }
 
-    private void send(Context context, String address, String subject, String message/*, String filePath*/, File file) {
+    private void send(Context context, String address, String subject, String message, File file) {
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{address});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -79,10 +79,70 @@ public class SendReportViewModel extends ViewModel {
     }
 
     private String generateReportUser(List<TimeLogUi> data) {
-        return "<b>test</b>";
+        StringBuilder result = new StringBuilder();
+        result.append("<html>");
+        result.append("<head>");
+        result.append("<style>");
+        result.append("table " +
+                "{ " +
+                "border-collapse: collapse; " +
+                "}");
+        result.append("th, td " +
+                "{ " +
+                "border: 1px solid black; " +
+                "font-weight:bold; " +
+                "}");
+        result.append("</style>");
+        result.append("</head>");
+        result.append("<body>");
+        result.append("<table>");
+        result.append("<tr><th>Дата</th><th>Время прихода</th><th>Время ухода</th><th>Общее время</th></tr>");
+        for (TimeLogUi log : data) {
+            result.append("<tr>");
+            result.append("<td>").append(log.getDay()).append("</td>");
+            result.append("<td>").append(log.getArrivalTime()).append("</td>");
+            result.append("<td>").append(log.getLeavingTime()).append("</td>");
+            result.append("<td>").append(log.getTotalTime()).append("</td>");
+            result.append("</tr>");
+        }
+        result.append("</table>");
+        result.append("</body>");
+        result.append("</html>");
+        return new String(result);
     }
 
     private String generateReportDay(List<Pair<UserUi, TimeLogUi>> data) {
-        return "<b>test</b>";
+        StringBuilder result = new StringBuilder();
+        result.append("<html>");
+        result.append("<head>");
+        result.append("<style>");
+        result.append("table " +
+                "{ " +
+                "border-collapse: collapse; " +
+                "}");
+        result.append("th, td " +
+                "{ " +
+                "border: 1px solid black; " +
+                "font-weight:bold; " +
+                "}");
+        result.append("</style>");
+        result.append("</head>");
+        result.append("<body>");
+        result.append("<table>");
+        result.append("<tr><th>Табельный номер</th><th>ФИО</th><th>Дата</th><th>Время прихода</th><th>Время ухода</th><th>Общее время</th></tr>");
+        for (Pair<UserUi, TimeLogUi> pair : data) {
+            result.append("<tr>");
+            result.append("<td>").append(pair.first.getId()).append("</td>");
+            result.append("<td>").append(pair.first.getFirstName()).append(" ").append(pair.first.getMiddleName()).append(" ").append(pair.first.getLastName()).append("</td>");
+            result.append("<td>").append(pair.second.getDay()).append("</td>");
+            result.append("<td>").append(pair.second.getArrivalTime()).append("</td>");
+            result.append("<td>").append(pair.second.getLeavingTime()).append("</td>");
+            result.append("<td>").append(pair.second.getTotalTime()).append("</td>");
+            result.append("</tr>");
+        }
+        result.append("</table>");
+        result.append("</body>");
+        result.append("</html>");
+        return new String(result);
     }
 }
