@@ -46,7 +46,7 @@
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/arrival_time_output"
-        app:layout_constraintStart_toEndOf="@+id/day_output"
+        app:layout_constraintStart_toEndOf="@+id/user_names_output"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -62,7 +62,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/arrival_time_output"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/day_output"
+        app:layout_constraintStart_toEndOf="@+id/user_names_output"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7" />
 
@@ -78,7 +78,7 @@
         android:textColor="@android:color/tertiary_text_light"
         app:layout_constraintBottom_toTopOf="@+id/leaving_time_output"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/day_output"
+        app:layout_constraintStart_toEndOf="@+id/user_names_output"
         app:layout_constraintTop_toBottomOf="@+id/total_time_output"
         app:layout_constraintWidth_percent="0.7" />
 
@@ -94,7 +94,7 @@
         android:textColor="@android:color/tertiary_text_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/day_output"
+        app:layout_constraintStart_toEndOf="@+id/user_names_output"
         app:layout_constraintTop_toBottomOf="@+id/arrival_time_output"
         app:layout_constraintWidth_percent="0.7" />
 
