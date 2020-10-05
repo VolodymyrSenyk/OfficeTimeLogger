@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">OfficeTimeLogger</string>
+
+    <string name="action_show_statistics">Статистика</string>
+    <string name="action_filter_list">Задать границы</string>
+
+    <string name="dialog_answer_continue">Продолжить</string>
+    <string name="dialog_answer_cancel">Отмена</string>
+
+    <string name="total_time_format">%1$d ч. %2$d мин.</string>
+    <string name="total_time_output">В офисе проведено %1$s</string>
+    <string name="arrival_time_output">Время прибытия: %1$s</string>
+    <string name="leaving_time_output">Время ухода: %1$s</string>
+    <string name="time_logs_empty_state">Записи не найдены</string>
+
+    <string name="empty_fields_error">Все поля должны быть заполнены</string>
+
+</resources>

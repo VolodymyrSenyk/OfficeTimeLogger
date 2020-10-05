@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/authorizationFragment">
+
+    <fragment
+        android:id="@+id/authorizationFragment"
+        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.AuthorizationFragment"
+        android:label="AuthorizationFragment"
+        tools:layout="@layout/fragment_authorization">
+        <action
+            android:id="@+id/action_authorizationFragment_to_timeLoggerFragment"
+            app:destination="@id/timeLoggerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.StatisticsFragment"
+        android:label="StatisticsFragment"
+        tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/timeLoggerFragment"
+        android:name="com.senyk.volodymyr.officetimelogger.view.fragments.TimeLoggerFragment"
+        android:label="TimeLoggerFragment"
+        tools:layout="@layout/fragment_time_logger">
+        <action
+            android:id="@+id/action_timeLoggerFragment_to_statisticsFragments"
+            app:destination="@id/statisticsFragment" />
+    </fragment>
+</navigation>

@@ -1,0 +1,47 @@
+<resources>
+    <string name="users_list_screen">Пользователи</string>
+    <string name="statistics_screen">Статистика</string>
+
+    <string name="user_names_output">%1$s %2$s %3$s</string>
+    <string name="user_number_output">Табельный номер: %1$d</string>
+
+    <string name="user_adding_dialog_fragment_title">Добавление пользователя</string>
+    <string name="user_first_name_input_hint">Имя</string>
+    <string name="user_last_name_input_hint">Фамилия</string>
+    <string name="user_middle_name_input_hint">Отчество</string>
+
+    <string name="month_filter_dialog_fragment_title">Выберите месяц для вывода статистики</string>
+    <string name="month_filter_input_hint">Месяц для поиска</string>
+
+    <string name="day_filter_dialog_fragment_title">Выберите день для вывода статистики</string>
+    <string name="day_filter_input_hint">День для поиска</string>
+
+    <string name="reset_password_dialog_fragment_title">Сбросить пароль?</string>
+    <string name="reset_password_dialog_fragment_message">Пароль выбранного пользователя будет сброшен до пароля по умолчанию</string>
+    <string name="reset_password_success_message">Пароль успешно сброшен</string>
+
+    <string-array name="months">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
+
+    <string name="send_report_button">Отправить отчёт</string>
+    <string name="send_email_dialog_fragment_title">Отправка отчёта</string>
+    <string name="send_email_address_input_hint">Адрес получателя</string>
+    <string name="send_email_subject_input_hint">Тема письма</string>
+    <string name="send_email_message_input_hint">Текст письма</string>
+    <string name="report_filename">Отчёт за %1$d.%2$d.%3$d %4$d:%5$d.pdf</string>
+    <string name="send_email_chooser_title">Отправка письма</string>
+    <string name="send_email_success_message">Отчёт успешно отправлен</string>
+
+</resources>
